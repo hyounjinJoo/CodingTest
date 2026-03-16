@@ -10,7 +10,7 @@ int Hashing(const int& Length, const string& Str)
 		Value += pow(31, i) * (Str[i] - 'a' + 1);
 	}
 
-	return Value;
+	return Value % 1234567891;
 }
 
 int main()
