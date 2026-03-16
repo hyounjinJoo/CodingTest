@@ -1,16 +1,23 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
 
-int Hashing(const int& Length, const string& Str)
+long long Hashing(const int& Length, const string& Str)
 {
-	int Value{};
+	const int M{ 1234567891 };
+	const int R{ 31 };
+
+	long long Value{};
+	long long rPower{ 1 };// 31의 제곱을 저장.
+
 	for (int i = 0; i < Length; ++i)
 	{
-		Value += pow(31, i) * (Str[i] - 'a' + 1);
+		int CharNum = Str[i] - 'a' + 1;
+		long long Term = (CharNum * rPower) % M;
+		Value = (Value + Term) % M;
+		rPower = (rPower * R) % M;
 	}
 
-	return Value % 1234567891;
+	return Value;
 }
 
 int main()
@@ -22,7 +29,7 @@ int main()
 	cin >> Length;
 	string Str{};
 	cin >> Str;
-	int Value{};
+	long long Value{};
 	Value = Hashing(Length, Str);
 	cout << Value << '\n';
 }
