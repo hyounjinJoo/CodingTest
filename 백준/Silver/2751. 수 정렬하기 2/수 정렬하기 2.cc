@@ -1,6 +1,6 @@
-
 #include <iostream>
-#include <set>
+#include <algorithm>
+#include <vector>
 using namespace std;
 
 int main()
@@ -11,13 +11,13 @@ int main()
 	int Count{};
 	cin >> Count;
 
-	set<int> Numbers;
-	int Value;
+	vector<int> Numbers(Count);
 	for (int i = 0; i < Count; ++i)
 	{
-		cin >> Value;
-		Numbers.insert(Value);
+		cin >> Numbers[i];
 	}
+    sort(Numbers.begin(), Numbers.end());
+    
 	for (const int& number : Numbers)
 	{
 		cout << number << '\n';
