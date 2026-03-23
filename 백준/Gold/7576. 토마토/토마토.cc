@@ -1,3 +1,4 @@
+// 복습 및 2차원 배열을 1차원으로 평탄화 하여 캐시 적중률 상승 테스트
 #include <iostream>
 #include <utility>
 #include <vector>
@@ -15,15 +16,15 @@ int main()
 
 	int M{}, N{};
 	cin >> M >> N;
-	vector<vector<int>> Box(N, vector<int>(M));
+	vector<int> Box(N * M);
 	queue<pair<int, int>> Q;
 
 	for (int i = 0; i < N; ++i)
 	{
 		for (int j = 0; j < M; ++j)
 		{
-			cin >> Box[i][j];
-			if (Box[i][j] == 1) Q.push({ i, j });
+			cin >> Box[i * M + j];
+			if (Box[i * M + j] == 1) Q.push({ i, j });
 		}
 	}
 
@@ -35,12 +36,12 @@ int main()
 			int nx = Cur.X + dx[i];
 			int ny = Cur.Y + dy[i];
 			if (nx < 0 || ny < 0 || nx >= M || ny >= N) continue;
-			if (Box[ny][nx] != 0) continue;
+			if (Box[ny * M + nx] != 0) continue;
 			
 			// 최대 일자 계산을 위해 방문하지 않은 토마토만 이전 일자에 +1 처리
-			if (Box[ny][nx] == 0)
+			if (Box[ny * M + nx] == 0)
 			{
-				Box[ny][nx] = Box[Cur.Y][Cur.X] + 1;
+				Box[ny * M + nx] = Box[Cur.Y * M + Cur.X] + 1;
 				Q.push({ ny, nx });
 			}
 		}
@@ -51,12 +52,12 @@ int main()
 	{
 		for (int j = 0; j < M; ++j)
 		{
-			if (Box[i][j] == 0)	// 익지 않은 것에 대한 예외처리
+			if (Box[i * M + j] == 0)	// 익지 않은 것에 대한 예외처리
 			{
 				cout << -1;
 				return 0;
 			}
-			MaxDay = max(MaxDay, Box[i][j]);
+			MaxDay = max(MaxDay, Box[i * M + j]);
 		}
 	}
 
